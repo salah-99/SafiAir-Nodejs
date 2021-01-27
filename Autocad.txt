@@ -1,0 +1,4 @@
+autocad c'est un logiciel de dessin assisster par ordinateur (DAO), créer 1982 
+Server=localhost;Database=master;Trusted_Connection=True;
+soheya9770@1092df.com
+6412422682
