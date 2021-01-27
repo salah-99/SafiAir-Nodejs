@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>SafiAir</title>
+        <link rel="icon" type="image/png" sizes="20x20" href="http://localhost:4000/2.png">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    </head>
+
+    <body>
+        <img style="width: 4%; margin-left: 3%; margin-top: 1%;" src="http://localhost:4000/2.png" alt="logo">
+        <div class="col" style="text-align: center;">
+            <h4 style="color: black; font-family: 'Poppins Medium'; font-weight: bold;text-align: center; ">Your Flight</h4<>
+            <center>
+                <div style="border: 2px solid #FE6825;  border-width: 5px 50px 5px; width: 5%; margin-top: 1%;"></div>
+            </center>
+        </div>
+        <table class="table" style="margin-top: 3%;">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Departure City</th>
+                <th scope="col">Arrival City</th>
+                <th scope="col">Departure Date</th>
+                <th scope="col">Arrival Date</th>
+                <th scope="col">Departure Time</th>
+                <th scope="col">Arrivale Time</th>
+                <th scope="col">N° Places available</th>
+                <th scope="col">Prix</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% user.forEach(function(user, vol){ %>
+                <tr>
+                  <th scope="row"><%= user.id_v %></th>
+                  <td><%= user.villedep %></td>
+                  <td><%= user.villearr %></td>
+                  <td><%= user.datedep %></td>
+                  <td><%= user.datearr %></td>
+                  <td><%= user.timedep %></td>
+                  <td><%= user.timearr %></td>
+                  <td><%= user.person %></td>
+                  <td><%= user.prix %> MAD</td>
+                  <td><a href="/vol/booking/<%= user.id_v %>"><button style="background-color: #FE6825; color: white;" class="btn btn-sm">Booking</button></a></td>
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+
+
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    
+    
+    
+        
+    </body>
+</html>
