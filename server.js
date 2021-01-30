@@ -1,8 +1,12 @@
 const mysql = require('mysql');
 const path = require('path');
 const ejs = require('ejs');
+const passport = require('passport');
 const bodyparser = require('body-parser');
 const express = require('express');
+const PUBLISHABLE_KEY ="pk_test_51GsslZCLbCjfuC3EcKiGgU19kL43OVtYft4aN9poJwIZ669XCQ0wcHspYcEd7thFOoGOu0iKojTicG1D81ZQE13m00bYFEZ6JR";
+const SECRET_KEY ="sk_test_51GsslZCLbCjfuC3EA8Pgphmw8m4qsxgPO5Dv7qICrTTBulvAI6GvrV7IpYtyfNi4gnDurMVkgiq1B5KCSPxOX2l000yTI0K6tf";
+const stripe = require('stripe')(SECRET_KEY);
 var app = express();
 
 
@@ -31,10 +35,10 @@ app.get("/", function(req, res){
 });
 
 
-app.post('/demande',(req, res) => { 
+app.post('/',(req, res) => { 
     let data = {nom: req.body.nom, prenom: req.body.prenom, tele: req.body.tele, email: req.body.email, pass: req.body.pass};
     let sql = "INSERT INTO client SET ?";
-    let query = connection.query(sql, data,(err, results) => {
+    connection.query(sql, data,(err, results) => {
       if(err) throw err;
       res.render('demande');
     });
@@ -44,9 +48,10 @@ app.get('/demande',(req, res) => {
     res.render('demande');
 });
 
-app.get('/demande/vol',(req, res) => {
-    let sql = "SELECT *FROM vol";
-    let query = connection.query(sql, (err, rows) => {
+app.get('/demande/:ville',(req, res) => {
+    var ville = req.params.ville
+    let sql = "SELECT * FROM vol WHERE villedep=?";
+    connection.query(sql, ville, (err, rows) => {
         if(err) throw err;
         res.render('vol', {
             user : rows
@@ -54,19 +59,56 @@ app.get('/demande/vol',(req, res) => {
     });
 });
 
+app.post('/demande',(req, res) => {
+    res.redirect('/demande/' + req.body.villedep);
+});
+
 app.get('/vol/booking/:id',(req,res)=>{
         res.render('reservation');
 });
 
 app.post('/vol/booking/:id',(req,res)=>{
-    const id = req.params.id;
-    let dat = {nom: req.body.nom, prenom: req.body.prenom, tele: req.body.tele, email: req.body.email, person: req.body.person};
-    let sql = "INSERT INTO reservation INNER JOIN vol ON reservation.id_v = vol.id_v AND reservation.id_v = '" +id+ "' ";
-    let query = connection.query(sql, dat,(err, results) => {
+    const volid = req.params.id;
+    let dat1 = {nom: req.body.nom, prenom: req.body.prenom, tele: req.body.tele, email: req.body.email, person: req.body.person, id_v: volid};
+    let sql1 = "INSERT INTO reservation SET ?";
+    connection.query(sql1, dat1,(err, results) => {
         if(err) throw err;
-        res.render('vol');
+        res.redirect('/pay/' + volid);
     });
-})
+});
+
+app.get('/pay/:id',(req,res)=>{
+    const volid = req.params.id;
+    let sql2 = `Select * from vol where id_v = ${volid}`;
+    connection.query(sql2, (err, result) => {
+        if(err){
+            throw err;
+        }else{
+            res.render("pay",{table:result})
+        }
+    });
+});
+
+app.post('/pay/:id',(req,res)=>{
+    const volid = req.params.id;
+    let dat2 = {ncart: req.body.ncart, datcart: req.body.datcart, nacart: req.body.nacart, prix: req.body.prix, cvv: req.body.cvv, id_v: volid};
+    let sql2 = "INSERT INTO payment SET ?";
+    connection.query(sql2, dat2,(err, results) => {
+        if(err) throw err;
+        res.redirect('/demande');
+    });
+});
+
+
+
+
+
+
+app.get('/logout', function(req, res){
+    req.logout();
+    res.redirect('/');
+  });
+
 
 
 

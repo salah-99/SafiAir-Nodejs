@@ -6,8 +6,9 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     </head>
 
-    <body style="background-image: url(http://localhost:4000/4.jpg);  background-repeat: no-repeat; background-size: cover;">
+    <body style="background-image: url(http://localhost:4000/5.jpg);  background-repeat: no-repeat; background-size: cover;">
         <img style="width: 4%; margin-left: 3%; margin-top: 1%;" src="http://localhost:4000/2.png" alt="logo">
+        <button type="submit" name="submit" class="btn" style="background-color:#FE6825; font-family: 'Poppins Medium'; margin-left: 85%;"><a href="/logout" style="text-decoration: none; color:white;">logout</a></button>
         <section style="margin-left: 20%; margin-right: 20%; height: 700px; margin-top: 6%;">
             <div class="col" style="text-align: center; margin-top: 3%;">
                 <h4 style="color: rgb(255, 255, 255); font-family: 'Poppins Medium'; font-weight: bold;text-align: center; ">Search For Flights</h4<>
@@ -16,36 +17,36 @@
                 <div style="border: 2px solid #FE6825;  border-width: 5px 50px 5px; width: 5%; margin-top: 2%;"></div>
                 <div class="container" style="width: 60%; margin-top: 6%;">
                     <div class="col">
-                    <form action="/demande/vol" method="GET" style="margin-top: 7%;">
+                    <form action="/demande" method="POST" style="margin-top: 7%;">
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <input type="text" class="form-control" id="nom" name="villedep" placeholder="Departure city" required>
+                                <input type="text" class="form-control" id="villedep" name="villedep" placeholder="Departure city" required>
                             </div>
                             <div class="form-group col-md-6">
-                                <input type="text" class="form-control" id="prenom" name="villearr"  placeholder="Arrival city" required>
+                                <input type="text" class="form-control" id="villearr" name="villearr"  placeholder="Arrival city" required>
                             </div>
                         </div>
                         <div class="form-row" style="margin-top: 2%;">
                             <div class="form-group col-md-6">
                                 <label for="" style=" margin-left: -50%;  color: rgb(255, 255, 255); font-family: 'Poppins'; font-weight: bold;">Departure Time :</label>
-                                <input type="time" class="form-control" id="nom" name="timedep" placeholder="Departure Time" required>
+                                <input type="time" class="form-control" id="timedep" name="timedep" placeholder="Departure Time" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="" style="margin-left: -50%; color: rgb(255, 255, 255); font-family: 'Poppins'; font-weight: bold;">Arrival Time :</label>
-                                <input type="time" class="form-control" id="prenom" name="timearr" placeholder="Arrival Time" required>
+                                <input type="time" class="form-control" id="timearr" name="timearr" placeholder="Arrival Time" required>
                             </div>
                         </div>
                         <div class="form-row" style="margin-top: 2%;">
                             <div class="form-group col-md-6">
                                 <label for="" style="margin-left: -50%; color: rgb(255, 255, 255); font-family: 'Poppins'; font-weight: bold;">Departure Date :</label>
-                                <input type="date" class="form-control" id="nom" name="datedep" placeholder="Departure Date" required>
+                                <input type="date" class="form-control" id="datedep" name="datedep" placeholder="Departure Date" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="" style="margin-left: -50%; color: rgb(255, 255, 255); font-family: 'Poppins'; font-weight: bold;">Arrival Date :</label>
-                                <input type="date" class="form-control" id="prenom" name="datearr" placeholder="Arrival Date" required>
+                                <input type="date" class="form-control" id="datearr" name="datearr" placeholder="Arrival Date" required>
                             </div>
                         </div>
-                        <button type="submit" name="submit" class="btn" style="background-color:#FE6825; color:white; font-family: 'Poppins Medium'; margin-top: 5%;">Search</button>
+                        <input type="submit" name="submit" class="btn" style="background-color:#FE6825; color:white; font-family: 'Poppins Medium'; margin-top: 5%;" value="Search"></button>
                     </form>
                     </div>
                 </div>
