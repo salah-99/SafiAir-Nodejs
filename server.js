@@ -4,6 +4,11 @@ const ejs = require('ejs');
 const passport = require('passport');
 const bodyparser = require('body-parser');
 const express = require('express');
+const { getMaxListeners } = require('process');
+const { ifError } = require('assert');
+
+const nodemailer = require('nodemailer');
+
 const PUBLISHABLE_KEY ="pk_test_51GsslZCLbCjfuC3EcKiGgU19kL43OVtYft4aN9poJwIZ669XCQ0wcHspYcEd7thFOoGOu0iKojTicG1D81ZQE13m00bYFEZ6JR";
 const SECRET_KEY ="sk_test_51GsslZCLbCjfuC3EA8Pgphmw8m4qsxgPO5Dv7qICrTTBulvAI6GvrV7IpYtyfNi4gnDurMVkgiq1B5KCSPxOX2l000yTI0K6tf";
 const stripe = require('stripe')(SECRET_KEY);
@@ -69,16 +74,38 @@ app.get('/vol/booking/:id',(req,res)=>{
 
 app.post('/vol/booking/:id',(req,res)=>{
     const volid = req.params.id;
-    let dat1 = {nom: req.body.nom, prenom: req.body.prenom, tele: req.body.tele, email: req.body.email, person: req.body.person, id_v: volid};
-    let sql1 = "INSERT INTO reservation SET ?";
-    connection.query(sql1, dat1,(err, results) => {
-        if(err) throw err;
-        res.redirect('/pay/' + volid);
-    });
+    const global = 20;
+    
+
+
+
+
+    // let sql4 = "SELECT nombre FROM reservation WHERE id_r = 40";
+    // connection.query(sql4, (err, results) => {
+    //     console.log(results)
+    //     if(err) throw err;
+    //     //res.redirect('/pay/' + volid);
+    // });
+    if (req.body.person) {
+        var toatal_numl = req.body.person;
+        var number= global - toatal_numl;
+        let dat1 = {nom: req.body.nom, prenom: req.body.prenom, tele: req.body.tele, email: req.body.email, person: req.body.person, id_v: volid , nombre:number};
+        let sql1 = "INSERT INTO reservation SET ?";
+        connection.query(sql1, dat1,(err, results) => {
+            if(err) throw err;
+            res.redirect('/pay/' + volid);
+        });
+    } else {
+
+        let alert = require('alert');  
+        alert("les places limitté a 20")
+    }
+  
 });
 
 app.get('/pay/:id',(req,res)=>{
     const volid = req.params.id;
+    console.log(volid);
     let sql2 = `Select * from vol where id_v = ${volid}`;
     connection.query(sql2, (err, result) => {
         if(err){
@@ -90,10 +117,14 @@ app.get('/pay/:id',(req,res)=>{
 });
 
 app.post('/pay/:id',(req,res)=>{
-    const volid = req.params.id;
+    let volid =  req.params.id;
+    console.log(volid);
     let dat2 = {ncart: req.body.ncart, datcart: req.body.datcart, nacart: req.body.nacart, prix: req.body.prix, cvv: req.body.cvv, id_v: volid};
+    console.log(dat2);
     let sql2 = "INSERT INTO payment SET ?";
+ 
     connection.query(sql2, dat2,(err, results) => {
+      //  console.log(results);
         if(err) throw err;
         res.redirect('/demande');
     });
@@ -107,59 +138,50 @@ app.get('/logout', function(req, res){
   });
 
 
+app.post("/", (req, res) => {
 
-/////////////
-app.get('/', (req, res)=> {
-    
-    async function main() {
+   const output = `<h2>cas urgent</h2>
+  <h3>les information de patient </h3>
+  <ul>
+  <li>Number Of Card: : ${req.body.ncart}</li>
+  <li>Expiration Date: : ${req.body.datcart}</li>
+  <li>Name of the card holder: : ${req.body.nacart}</li>
+  <li>Cvv : ${req.body.cvv}</li>
+  <li>Prix : ${req.body.prix}</li>
+  </ul>`;
 
-        let transporter = nodemailer.createTransport({
-            host: "smtp.gmail.com",
-            port: 587,
-            secure: false, 
-            auth: {
-                user: "elabyadsaloua@gmail.com",
-                pass: "saloua1998",
-            },
-            tls: {
-                rejectUnauthorized: false
-            }
-        });
-    
-        // send mail with defined transport object
-        let info = await transporter.sendMail({
-            from: 'elabyadsaloua@gmail.com', // sender address
-            to: "salouaelabyad@gmail.com", // list of receivers
-            subject: "Hello 6", // Subject line
-            text: "Hello world?", // plain text body
-            html: `
-        <b>Number Of Card:</b> ${req.body.ncart} <br>
-        <b>Expiration Date:</b> ${req.body.datcart} <br>
-        <b>Name of the card holder:</b> ${req.body.nacart} <br>
-        <b>Cvv:</b> ${req.body.cvv} <br>  
-        <b>Prix:</b> ${req.body.prix} <br>
-        `
-
-
-        });
-    
-        console.log("Message sent: %s", info.messageId);
-
-        console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+let transporter = nodemailer.createTransport({
+    host: "smtp.ethereal.email",
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: 'elabyadsaloua@gmail.com', // generated ethereal user
+      pass: 'saloua1998', // generated ethereal password
+    },
+    tls: {
+        rejectUnauthorized:false
     }
-  
-    main().catch(console.error);
-    //END SEND MAIL
-    res.render('red');
+  });
+
+ // send mail with defined transport object
+ let mailOptions = {
+    from: 'elabyadsaloua@gmail.com', // sender address
+    to: "salouaelabyad@gmail.com", // list of receivers
+    subject: "Hello ✔", // Subject line
+    text: "Hello world?", // plain text body
+    html: output 
+  };
+
+ transporter.sendMail(mailOptions, (error, info) => {
+     if (error) {
+         return console.log(error);
+     }
+     console.log("Message sent: %s", info.messageId);
+     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+
+     res.render('demande' , {msg: 'has been sent'} );
+ });
 });
 
-
-// fs.writeFile("temp.txt", data, (err) => {
-//     if (err) console.log(err);
-//     console.log("Successfully Written to File.");
-//   });
-
-
-
-app.listen(4000,()=>console.log('Express server is runing'));
-
+app.listen(8080,()=>console.log('Express server is runing'));
+  

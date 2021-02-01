@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : Dim 31 jan. 2021 à 00:02
--- Version du serveur :  10.4.11-MariaDB
--- Version de PHP : 7.4.4
+-- Généré le : lun. 01 fév. 2021 à 23:37
+-- Version du serveur :  10.4.17-MariaDB
+-- Version de PHP : 8.0.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -52,7 +52,14 @@ INSERT INTO `client` (`id_c`, `nom`, `prenom`, `tele`, `email`, `pass`) VALUES
 (110, NULL, NULL, NULL, NULL, NULL),
 (111, 'EZZAHI', 'Salah Eddine', 665664406, 'ezzahisalah5@gmail.com', 'k,'),
 (112, NULL, NULL, NULL, NULL, NULL),
-(113, 'salah', 'Salah Eddine', 6542389, 'Qualbal.fish@gmail.com', 'lk,lm');
+(113, 'salah', 'Salah Eddine', 6542389, 'Qualbal.fish@gmail.com', 'lk,lm'),
+(114, NULL, NULL, NULL, NULL, NULL),
+(115, 'abrouk', 'saloua', 2147483647, 'elabyadsaloua@gmail.com', 'azerty'),
+(116, 'Elabyad', 'admin', 614075409, 'elabyadsaloua@gmail.com', 'aze'),
+(117, 'ily', 'hii', 77777, 'elabyadsaloua@gmail.com', 'ZD'),
+(118, 'mohamed', 'elhachimi', 77777, 'salouaelabyad@gmail.com', 'jzhvhad'),
+(119, 'Elabyad', 'saloua', 9090909, 'salouaelabyad@gmail.com', 'sjkg'),
+(120, 'Elabyad', 'rtg', 614075409, 'salouaelabyad@gmail.com', 'rgh');
 
 -- --------------------------------------------------------
 
@@ -75,7 +82,23 @@ CREATE TABLE `payment` (
 --
 
 INSERT INTO `payment` (`id_p`, `ncart`, `datcart`, `cvv`, `nacart`, `prix`, `id_v`) VALUES
-(1, 333, '2021-01-28', 888, 'OPKDFL', 750, 1);
+(1, 333, '2021-01-28', 888, 'OPKDFL', 750, 1),
+(2, 12345, '2021-02-08', 111, 'saloua-elabyad', 750, 1),
+(3, 12345, '2021-02-02', 2222, 'saloua-elabyad', 750, 1),
+(4, 12345, '2021-02-02', 3333, 'saloua-elabyaddfs', 750, 1),
+(5, 12345, '2021-02-25', 444, 'ily_hii', 750, 1),
+(7, 12345, '2021-02-03', 111, 'saloua-elabyad', 750, NULL),
+(9, 12345, '2021-02-17', 444, 'saloua-elabyad', 750, 1),
+(10, 1111, '2021-02-11', 444, 'saloua-elabyad', 750, 1),
+(11, 12345, '2021-02-03', 111, 'saloua-elabyad', 750, 1),
+(12, 12345, '2021-02-10', 2222, 'saloua-elabyad', 750, 1),
+(18, 12345, '2021-02-19', 68876, 'saloua-elabyad', 750, 2),
+(19, 2147483647, '2021-02-10', 68876, 'saloua-elabyad', 750, 1),
+(20, 2147483647, '2021-02-11', 444, 'saloua-elabyad', 750, 2),
+(21, 12345, '2021-02-10', 111, 'saloua-elabyad', 750, 1),
+(22, 12345, '2021-02-10', 68876, 'saloua-elabyad', 750, 1),
+(23, 12345, '2021-02-17', 68876, 'saloua-elabyad', 750, 2),
+(24, 12345, '2021-02-09', 68876, 'saloua-elabyad', 750, 1);
 
 -- --------------------------------------------------------
 
@@ -90,21 +113,22 @@ CREATE TABLE `reservation` (
   `tele` int(11) DEFAULT NULL,
   `email` varchar(200) DEFAULT NULL,
   `person` int(11) DEFAULT NULL,
-  `id_v` int(11) NOT NULL
+  `id_v` int(11) NOT NULL,
+  `nombre` int(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `reservation`
 --
 
-INSERT INTO `reservation` (`id_r`, `nom`, `prenom`, `tele`, `email`, `person`, `id_v`) VALUES
-(5, 'EZZAHI', 'Salah eddine', 2147483647, 'salaheddineezzahi5@gmail.com', 2, 1),
-(6, 'EZZAHI', 'hossam', 6542389, 'salaheddineezzahi5@gmail.com', 4, 1),
-(7, 'Travel', 'Salah eddine', 665664406, 'salaheddineezzahi5@gmail.com', 3, 1),
-(8, 'EZZAHI', 'Salah Eddine', 6142567, 'sandak.fruit@gmail.com', 4, 1),
-(9, 'salah', 'naji', 6542389, 'ezzahisalah5@gmail.com', 4, 1),
-(10, 'salah', 'haya', 665664406, 'salaheddineezzahi5@gmail.com', 2, 1),
-(11, 'Travel', 'hossam', 2147483647, 'Qualbal.fish@gmail.com', 2, 1);
+INSERT INTO `reservation` (`id_r`, `nom`, `prenom`, `tele`, `email`, `person`, `id_v`, `nombre`) VALUES
+(39, 'Elabyad', 'wissal', 77777, 'salouaelabyad@gmail.com', 3, 1, 17),
+(40, 'Elabyad', 'hicham', 77777, 'salouaelabyad@gmail.com', 3, 1, 17),
+(41, 'mohamed', 'elhachimi', 614075409, 'ikram.lave@outlook.fr', 1, 1, 5),
+(42, 'Elabyad', 'admin', 614075409, 'ikram.elabyed@gmail.com', 2, 1, 5),
+(43, 'hachimii', 'fati', 614075409, 'salouaelabyad@gmail.com', 2, 1, 5),
+(44, 'mohamed', 'ily', 614075409, 'salouaelabyad@gmail.com', 2, 1, 5),
+(45, 'hello', 'hello', 614075409, 'salouaelabyad@gmail.com', 5, 1, 15);
 
 -- --------------------------------------------------------
 
@@ -170,19 +194,19 @@ ALTER TABLE `vol`
 -- AUTO_INCREMENT pour la table `client`
 --
 ALTER TABLE `client`
-  MODIFY `id_c` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=114;
+  MODIFY `id_c` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
 
 --
 -- AUTO_INCREMENT pour la table `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `id_p` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_p` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT pour la table `reservation`
 --
 ALTER TABLE `reservation`
-  MODIFY `id_r` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_r` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT pour la table `vol`
