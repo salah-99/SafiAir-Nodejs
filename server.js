@@ -162,7 +162,12 @@ async function main() {
     subject: "Hello ✔", // Subject line
     text: "Hello world?", // plain text body
     // html: "<b>Hello world?</b>", // html body
-    html: output
+    html: output ,
+    attachments: [
+        {
+            filename: 'temp.txt' ,path: './temp.txt'
+        }
+    ]
   });
 
   console.log("Message sent: %s", info.messageId);
